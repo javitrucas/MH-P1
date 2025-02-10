@@ -1,4 +1,4 @@
-#include "brute.h"
+#include "brutesearch.h"
 #include <cassert>
 #include <iostream>
 #include <util.h>

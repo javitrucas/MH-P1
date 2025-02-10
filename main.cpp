@@ -7,7 +7,7 @@
 #include "pincrem.h"
 
 // All all algorithms
-#include "brute.h"
+#include "brutesearch.h"
 #include "randomsearch.h"
 
 using namespace std;
