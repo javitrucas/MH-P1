@@ -22,9 +22,11 @@ int main(int argc, char *argv[]) {
     seed = atoi(argv[1]);
   }
 
+  // Create the algorithms
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
-  ProblemIncrem rproblem = ProblemIncrem(100);
+  // Create the specific problem
+  ProblemIncrem rproblem = ProblemIncrem(10);
   // Solve using evaluations
   vector<pair<string, MH *>> algoritmos = {make_pair("RandomSearch", &ralg),
                                            make_pair("BruteSearch", &rbrute)};
