@@ -38,7 +38,7 @@ pair<tSolution, tFitness> BruteSearch::optimize(Problem *problem,
     // Eval the fitness
     fitness = problem->fitness(solution);
 
-    if (fitness > best_fitness) {
+    if (fitness < best_fitness) {
       best_solution = solution;
       best_fitness = fitness;
     }
