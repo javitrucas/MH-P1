@@ -23,7 +23,7 @@ template <class T> void print_vector(string name, const vector<T> &sol) {
  */
 ResultMH GreedySearch::optimize(HeuristicProblem *problem, int maxevals) {
   assert(maxevals > 0);
-  vector<uint> values;
+  vector<unsigned int> values;
   tSolution sol(problem->getSize());
   print_vector("sol_initial", sol);
 
@@ -36,7 +36,7 @@ ResultMH GreedySearch::optimize(HeuristicProblem *problem, int maxevals) {
   for (int r = 0; r < size / 2; r++) {
     vector<float> heuristics;
 
-    for (uint posi : values) {
+    for (unsigned posi : values) {
       float heur = problem->heuristic(sol, posi);
       heuristics.push_back(heur);
     }
