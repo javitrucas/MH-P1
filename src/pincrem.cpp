@@ -7,7 +7,11 @@ tFitness ProblemIncrem::fitness(tSolution &solution) {
 
   for (int i = 0; i < solution.size(); i++) {
     if (solution[i]) {
-      count += 1;
+      if (i % 2 == 0) {
+        count += 1;
+      } else {
+        count -= 1;
+      }
     }
   }
   return count;
