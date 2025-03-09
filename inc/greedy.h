@@ -1,5 +1,5 @@
 #pragma once
-#include <mh.h>
+#include <heuristicmh.h>
 
 using namespace std;
 
@@ -10,11 +10,11 @@ using namespace std;
  * @see MH
  * @see Problem
  */
-class RandomSearch : public MH {
+class GreedySearch : public HeuristicMH {
 
 public:
-  RandomSearch() : MH() {}
-  virtual ~RandomSearch() {}
+  GreedySearch() : HeuristicMH() {}
+  virtual ~GreedySearch() {}
   // Implement the MH interface methods
   /**
    * Create random solutions until maxevals has been achieved, and returns the
@@ -24,5 +24,5 @@ public:
    * @param maxevals Maximum number of evaluations allowed
    * @return A pair containing the best solution found and its fitness
    */
-  ResultMH optimize(Problem *problem, int maxevals) override;
+  ResultMH optimize(HeuristicProblem *problem, int maxevals) override;
 };

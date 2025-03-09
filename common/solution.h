@@ -4,26 +4,20 @@
  * Solution class to represent a solution to the given problem.
  *
  * This is an example, change it for your specific problem.
- *
- * @author dmolina
- * @version 1.0
  */
 typedef std::vector<bool> tSolution;
+/**
+ * Represent a new option to create the solution.
+ */
+typedef int tOption;
 
 /**
  * Typedef for the fitness function return type.
  *
  * This is an example, change it for your specific problem.
  *
- * @author dmolina
- * @version 1.0
  */
 typedef float tFitness;
-
-/**
- * Represent a new option to create the solution.
- */
-typedef int tOption;
 
 /**
  * Represent the new option to select the heuristic

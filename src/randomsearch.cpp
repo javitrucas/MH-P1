@@ -11,8 +11,7 @@ using namespace std;
  * @param maxevals Maximum number of evaluations allowed
  * @return A pair containing the best solution found and its fitness
  */
-pair<tSolution, tFitness> RandomSearch::optimize(Problem *problem,
-                                                 int maxevals) {
+ResultMH RandomSearch::optimize(Problem *problem, int maxevals) {
   assert(maxevals > 0);
   tSolution best;
   float best_fitness = -1;
@@ -27,5 +26,5 @@ pair<tSolution, tFitness> RandomSearch::optimize(Problem *problem,
     }
   }
 
-  return make_pair(best, best_fitness);
+  return ResultMH(best, best_fitness, maxevals);
 }

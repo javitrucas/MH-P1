@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mh.h"
+#include "solution.h"
 #include <heuristicproblem.h>
 #include <utility>
 
@@ -28,9 +29,8 @@ public:
    * @author  author
    * @version 1.0
    */
-  virtual pair<tSolution, tFitness> optimize(HeuristicProblem *problem,
-                                             int maxevals) = 0;
-  pair<tSolution, tFitness> optimize(Problem *problem, int maxevals) override {
+  virtual ResultMH optimize(HeuristicProblem *problem, int maxevals) = 0;
+  ResultMH optimize(Problem *problem, int maxevals) override {
     return optimize((HeuristicProblem *)problem, maxevals);
   }
 };

@@ -8,6 +8,7 @@
 
 // All all algorithms
 #include "brutesearch.h"
+#include "greedy.h"
 #include "randomsearch.h"
 
 using namespace std;
@@ -25,20 +26,25 @@ int main(int argc, char *argv[]) {
   // Create the algorithms
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
+  GreedySearch rgreedy = GreedySearch();
+  MH *mh = &rgreedy;
   // Create the specific problem
   ProblemIncrem rproblem = ProblemIncrem(10);
   // Solve using evaluations
   vector<pair<string, MH *>> algoritmos = {make_pair("RandomSearch", &ralg),
-                                           make_pair("BruteSearch", &rbrute)};
+                                           make_pair("BruteSearch", &rbrute),
+                                           make_pair("Greedy", &rgreedy)};
   Problem *problem = dynamic_cast<Problem *>(&rproblem);
 
   for (int i = 0; i < algoritmos.size(); i++) {
     Random::seed(seed);
     cout << algoritmos[i].first << endl;
     MH *mh = algoritmos[i].second;
-    pair<tSolution, tFitness> result = mh->optimize(problem, 100);
-    cout << "Best solution: " << result.first << endl
-         << "Best fitness: " << result.second << endl;
+    ResultMH result = mh->optimize(problem, 100);
+    cout << "Best solution: " << result.solution << endl;
+
+    cout << "Best fitness: " << result.fitness << endl;
+    cout << "Evaluations: " << result.evaluations << endl;
   }
 
   return 0;

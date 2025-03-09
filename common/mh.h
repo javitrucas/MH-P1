@@ -3,7 +3,14 @@
 #include <problem.h>
 #include <utility>
 
-using std::pair;
+struct ResultMH {
+  tSolution solution;
+  tFitness fitness;
+  unsigned int evaluations;
+
+  ResultMH(tSolution &sol, tFitness fit, unsigned evals)
+      : solution(sol), fitness(fit), evaluations(evals) {}
+};
 
 /**
  * Metaheuristic algorithm interface.
@@ -27,6 +34,5 @@ public:
    * @author  author
    * @version 1.0
    */
-  virtual pair<tSolution, tFitness> optimize(Problem *problem,
-                                             int maxevals) = 0;
+  virtual ResultMH optimize(Problem *problem, int maxevals) = 0;
 };

@@ -5,8 +5,7 @@
 
 using namespace std;
 
-pair<tSolution, tFitness> BruteSearch::optimize(Problem *problem,
-                                                const int maxevals) {
+ResultMH BruteSearch::optimize(Problem *problem, const int maxevals) {
   tSolution solution(problem->getSize());
   tFitness fitness, best_fitness;
   size_t size = solution.size();
@@ -15,7 +14,7 @@ pair<tSolution, tFitness> BruteSearch::optimize(Problem *problem,
   tSolution best_solution = solution;
   best_fitness = fitness;
 
-  for (int i = 0; i < maxevals; i++) {
+  for (int i = 1; i < maxevals; i++) {
     unsigned int accu = 1;
     int posi = size - 1;
 
@@ -29,7 +28,7 @@ pair<tSolution, tFitness> BruteSearch::optimize(Problem *problem,
         posi = posi - 1;
 
         if (posi < 0) {
-          return make_pair(best_solution, best_fitness);
+          return ResultMH(best_solution, best_fitness, i);
         }
       }
     }
@@ -44,5 +43,5 @@ pair<tSolution, tFitness> BruteSearch::optimize(Problem *problem,
     }
   }
 
-  return make_pair(best_solution, best_fitness);
+  return ResultMH(best_solution, best_fitness, maxevals);
 }
