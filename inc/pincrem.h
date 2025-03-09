@@ -10,7 +10,5 @@ public:
   tFitness fitness(tSolution &solution) override;
   tSolution createSolution() override;
   size_t getSize() override { return size; }
-  tHeuristic heuristic(tSolution &sol, tOption option) {
-    return (option % 2) == 0;
-  }
+  tHeuristic heuristic(tSolution &sol, tOption option);
 };

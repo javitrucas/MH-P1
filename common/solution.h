@@ -23,7 +23,7 @@ typedef float tFitness;
 /**
  * Represent a new option to create the solution.
  */
-typedef bool tOption;
+typedef int tOption;
 
 /**
  * Represent the new option to select the heuristic

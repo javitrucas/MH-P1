@@ -24,5 +24,5 @@ public:
    * @param maxevals Maximum number of evaluations allowed
    * @return A pair containing the best solution found and its fitness
    */
-  pair<tSolution, float> optimize(Problem *problem, int maxevals) override;
+  pair<tSolution, tFitness> optimize(Problem *problem, int maxevals) override;
 };
