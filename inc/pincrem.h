@@ -7,8 +7,11 @@ class ProblemIncrem : public HeuristicProblem {
 
 public:
   ProblemIncrem(size_t size) : HeuristicProblem() { this->size = size; }
-  tFitness fitness(tSolution &solution) override;
+  tFitness fitness(const tSolution &solution) override;
   tSolution createSolution() override;
-  size_t getSize() override { return size; }
+  size_t getSolutionSize() override { return size; }
+  std::pair<tDomain, tDomain> getSolutionDomainRange() override {
+    return std::make_pair(false, true);
+  }
   tHeuristic heuristic(tSolution &sol, tOption option);
 };

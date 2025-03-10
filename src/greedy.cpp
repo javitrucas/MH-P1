@@ -24,10 +24,10 @@ template <class T> void print_vector(string name, const vector<T> &sol) {
 ResultMH GreedySearch::optimize(HeuristicProblem *problem, int maxevals) {
   assert(maxevals > 0);
   vector<unsigned int> values;
-  tSolution sol(problem->getSize());
+  tSolution sol(problem->getSolutionSize());
   print_vector("sol_initial", sol);
 
-  auto size = problem->getSize();
+  auto size = problem->getSolutionSize();
 
   for (int i = 0; i < size; i++) {
     values.push_back(i);

@@ -2,7 +2,7 @@
 #include <pincrem.h>
 #include <random.hpp>
 
-tFitness ProblemIncrem::fitness(tSolution &solution) {
+tFitness ProblemIncrem::fitness(const tSolution &solution) {
   tFitness count = 0;
 
   for (int i = 0; i < solution.size(); i++) {

@@ -6,7 +6,7 @@
 using namespace std;
 
 ResultMH BruteSearch::optimize(Problem *problem, const int maxevals) {
-  tSolution solution(problem->getSize());
+  tSolution solution(problem->getSolutionSize());
   tFitness fitness, best_fitness;
   size_t size = solution.size();
   assert(maxevals > 0);
