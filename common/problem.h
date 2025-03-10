@@ -36,7 +36,9 @@ public:
    */
   virtual tFitness fitness(const tSolution &solution, unsigned pos_previous,
                            tDomain new_value) {
-    return fitness(solution);
+    tSolution newsol(solution);
+    newsol[pos_previous] = new_value;
+    return fitness(newsol);
   }
   /**
    * Create a new solution.
