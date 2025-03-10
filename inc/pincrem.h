@@ -13,5 +13,6 @@ public:
   std::pair<tDomain, tDomain> getSolutionDomainRange() override {
     return std::make_pair(false, true);
   }
-  tHeuristic heuristic(tSolution &sol, tOption option);
+
+  vector<tHeuristic> heuristic(tSolution &sol, const vector<tOption> &options);
 };

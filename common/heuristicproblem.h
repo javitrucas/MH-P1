@@ -2,6 +2,9 @@
 #define __HEURISTICPROBLEM_H
 
 #include "problem.h"
+#include <vector>
+
+using std::vector;
 
 /**
  * Problem class to solve the given problem in metaheuristic.
@@ -14,7 +17,8 @@ public:
   /**
    * This is heuristic for the problem
    */
-  virtual tHeuristic heuristic(tSolution &current_sol, tOption new_option) = 0;
+  virtual vector<tHeuristic> heuristic(tSolution &current_sol,
+                                       const vector<tOption> &new_option) = 0;
 };
 
 #endif
