@@ -4,7 +4,7 @@
  *
  * Trayectory-based metaheuristic algorithm interface.
  */
-class MHTrayectory extends MH {
+class MHTrayectory : public MH {
 public:
   virtual ~MHTrayectory() {}
   /**
@@ -15,7 +15,7 @@ public:
    * @param maxevals The maximum number of evaluations.
    * @see MHTrayectory::optimize()
    */
-  pair<tSolution, tFitness> optimize(Problem *problem, int maxevals) override {
+  ResultMH optimize(Problem *problem, int maxevals) override {
     tSolution initial = problem->createSolution();
     tFitness fitness = problem->fitness(initial);
     return optimize(problem, initial, fitness, maxevals);
@@ -31,8 +31,6 @@ public:
    * @param fitness The fitness of the initial solution.
    * @param maxevals The maximum number of evaluations.
    */
-  virtual pair<tSolution, tFitness> optimize(Problem *problem,
-                                             const tSolution &current,
-                                             tFitness fitness,
-                                             int maxevals) = 0;
+  virtual ResultMH optimize(Problem *problem, const tSolution &current,
+                            tFitness fitness, int maxevals) = 0;
 };
