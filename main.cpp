@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
   GreedySearch rgreedy = GreedySearch();
-  MH *mh = &rgreedy;
   // Create the specific problem
   ProblemIncrem rproblem = ProblemIncrem(10);
   // Solve using evaluations
@@ -42,7 +41,6 @@ int main(int argc, char *argv[]) {
     MH *mh = algoritmos[i].second;
     ResultMH result = mh->optimize(problem, 100);
     cout << "Best solution: " << result.solution << endl;
-
     cout << "Best fitness: " << result.fitness << endl;
     cout << "Evaluations: " << result.evaluations << endl;
   }
