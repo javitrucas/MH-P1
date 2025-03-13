@@ -1,6 +1,7 @@
 #include <cassert>
 #include <greedy.h>
 #include <iostream>
+#include <pincrem.h>
 
 using namespace std;
 
@@ -21,9 +22,10 @@ template <class T> void print_vector(string name, const vector<T> &sol) {
  * @param maxevals Maximum number of evaluations allowed
  * @return A pair containing the best solution found and its fitness
  */
-ResultMH GreedySearch::optimize(HeuristicProblem *problem, int maxevals) {
+ResultMH GreedySearch::optimize(Problem *problem, int maxevals) {
   assert(maxevals > 0);
   vector<tOption> values;
+  ProblemIncrem *realproblem = dynamic_cast<ProblemIncrem *>(problem);
   tSolution sol(problem->getSolutionSize());
   print_vector("sol_initial", sol);
 
@@ -34,7 +36,12 @@ ResultMH GreedySearch::optimize(HeuristicProblem *problem, int maxevals) {
   }
 
   for (int r = 0; r < size / 2; r++) {
-    vector<float> heuristics = problem->heuristic(sol, values);
+    vector<float> heuristics;
+
+    for (auto option : values) {
+      tHeuristic value = ((option % 2) == 1 ? sol.size() - option : sol.size());
+      heuristics.push_back(value);
+    }
     // print_vector("heuristics", heuristics);
 
     auto posi = min_element(heuristics.begin(), heuristics.end());
