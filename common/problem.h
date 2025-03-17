@@ -68,14 +68,13 @@ public:
    *
    * @param solution.
    * @param solution_info to update, it is updated.
-   * @param pos_previous position of the solution to change.
+   * @param pos_change position of the solution to change.
    * @param new_value to store in pos_previous.
    */
   virtual void updateSolutionFactoringInfo(SolutionFactoringInfo *solution_info,
-					   const tSolution &solution,
-					   unsigned pos_previous,
-					   tDomain new_value) {
-  }
+                                           const tSolution &solution,
+                                           unsigned pos_change,
+                                           tDomain new_value) {}
 
   /**
    * Create a new solution.
