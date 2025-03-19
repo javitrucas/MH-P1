@@ -14,7 +14,9 @@ using Random = effolkronium::random_static;
  *
  * The idea is to inherit from this class for specific problems.
  */
-class SolutionFactoringInfo {};
+class SolutionFactoringInfo {
+  virtual ~SolutionFactoringInfo() = default; // Default destructor
+};
 
 /**
  * Problem class to solve the given problem in metaheuristic.
