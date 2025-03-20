@@ -1,6 +1,6 @@
 #pragma once
 #include <algorithm>
-#include <heuristicproblem.h>
+#include <problem.h>
 
 class ProblemIncrem : public HeuristicProblem {
   size_t size;                // Número de elementos (n)
