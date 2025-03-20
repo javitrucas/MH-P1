@@ -11,7 +11,7 @@ typedef float tFitness;
 /**
  * Domain of each element
  */
-typedef bool tDomain;
+typedef int tDomain;
 
 /**
  * Represent a new option to create the solution for the heuristic.

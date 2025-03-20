@@ -5,25 +5,35 @@
 #include <iostream>
 
 tFitness ProblemIncrem::fitness(const tSolution &solution) {
-  tFitness count = 0;
+  tFitness count_parcial[m];
+  tFitness count_total=0;
+  int max = 99999999;
+  int min = -1;
 
-  for (int i = 0; i < solution.size(); i++) {
-    if (solution[i]) {
-      if (i % 2 == 0) {
-        count += 1;
-      } else {
-        count -= 1;
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < m; j++){
+      if(j!=i) {
+        count_parcial[i] += D[i][j];
       }
     }
+    if (count_parcial[i]<min){
+      min = count_parcial[i];
+    }
+    if(count_parcial[i]>max){
+      max = count_parcial[i];
+    }
   }
-  return count;
+  count_total = max - min;
+  return count_total;
 }
 
 tSolution ProblemIncrem::createSolution() {
   tSolution solution(size);
   for (int i = 0; i < solution.size(); i++) {
-    solution[i] = Random::get<bool>();          // Numero aleatorio entre 1 y n
-  }
+    solution[i] = Random::get<int>(1,size);          // Numero aleatorio entre 1 y n
+  }             // COMPROBAR QUE NO SE REPITAN NUMEROS
+  // Ordenar numeros de menor a mayor
+  std::sort(solution.begin(), solution.end());
   return solution;
 }
 
@@ -46,14 +56,14 @@ void ProblemIncrem::leerArchivo(const std::string& filename){
         exit(1);
     }
 
-    file >> n >> m;
-    D.resize(n, std::vector<double>(n, 0.0));
+    file >> size >> m;
+    D.resize(size, std::vector<double>(size, 0.0));
 
     int i, j;
     double dij;
     while (file >> i >> j >> dij) {
         D[i][j] = dij;
-        std::cout << D[i][j] << std::endl;
+        //std::cout << D[i][j] << std::endl;
         //D[j][i] = dij;  // Matriz simétrica
     }
 

@@ -45,11 +45,13 @@ CMakeFiles/main.dir/main.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/main.cpp \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/basic_string.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/basic_string.tcc \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/char_traits.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/codecvt.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/concept_check.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/cpp_type_traits.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/cxxabi_forced.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/exception_defines.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/exception_ptr.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/fstream.tcc \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/functexcept.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/functional_hash.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/hash_bytes.h \
@@ -114,6 +116,7 @@ CMakeFiles/main.dir/main.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/main.cpp \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/numeric_traits.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/string_conversions.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/type_traits.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/fstream \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/initializer_list \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ios \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/iosfwd \
@@ -122,8 +125,10 @@ CMakeFiles/main.dir/main.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/main.cpp \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/iterator \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/limits \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/atomic_word.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/basic_file.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/c++allocator.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/c++config.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/c++io.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/c++locale.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/cpu_defines.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/mingw32/bits/ctype_base.h \
@@ -757,6 +762,8 @@ c:/mingw/include/stdio.h:
 
 C:/Users/raulm/Documents/MH/MH_P1/common/mh.h:
 
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/fstream.tcc:
+
 C:/Users/raulm/Documents/MH/MH_P1/inc/greedy.h:
 
 C:/Users/raulm/Documents/MH/MH_P1/common/problem.h:
@@ -786,6 +793,8 @@ c:/mingw/include/_mingw.h:
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/allocator.h:
 
 c:/mingw/include/assert.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/codecvt.h:
 
 c:/mingw/include/ctype.h:
 
@@ -825,8 +834,6 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/localefwd.h:
 
 c:/mingw/include/stdlib.h:
 
-c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/ostream_insert.h:
-
 c:/mingw/include/sys/stat.h:
 
 c:/mingw/include/sys/types.h:
@@ -846,8 +853,6 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/alloc_traits.h:
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/locale_classes.tcc:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/basic_ios.h:
-
-c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/parse_numbers.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/debug/debug.h:
 
@@ -880,6 +885,10 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/istream.tcc:
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/locale_facets.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/nested_exception.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/ostream_insert.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/parse_numbers.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/postypes.h:
 
@@ -977,6 +986,8 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/numeric_traits.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/type_traits.h:
 
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/fstream:
+
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/initializer_list:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ios:
@@ -1028,9 +1039,3 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/stdint.h:
 C:/Users/raulm/Documents/MH/MH_P1/src/brutesearch.cpp:
 
 C:/Users/raulm/Documents/MH/MH_P1/src/pincrem.cpp:
-
-c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/codecvt.h:
-
-c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/fstream.tcc:
-
-c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/fstream:
