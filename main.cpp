@@ -27,12 +27,17 @@ int main(int argc, char *argv[]) {
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
   GreedySearch rgreedy = GreedySearch();
+
   // Create the specific problem
-  ProblemIncrem rproblem = ProblemIncrem(10);
+  //ProblemIncrem rproblem = ProblemIncrem(10);
+  ProblemIncrem rproblem;
+  rproblem.leerArchivo("../datos_MDD/GKD-b_1_n25_m2.txt");
+
   // Solve using evaluations
   vector<pair<string, MH *>> algoritmos = {make_pair("RandomSearch", &ralg),
                                            make_pair("BruteSearch", &rbrute),
                                            make_pair("Greedy", &rgreedy)};
+
   Problem *problem = dynamic_cast<Problem *>(&rproblem);
 
   for (int i = 0; i < algoritmos.size(); i++) {
