@@ -24,23 +24,8 @@ int main(int argc, char *argv[]) {
     seed = atoi(argv[1]);
   }
 
-  std::string filename = "../datos_MDD/GKD-b_1_n25_m2.txt";  // Cambia esto por el archivo que usa tu programa
-
-    std::ifstream file(filename);
-    if (!file) {
-        std::cerr << "Error: No se pudo abrir el archivo: " << filename << std::endl;
-        return 1;
-    }
-
-    std::cout << "Archivo abierto correctamente: " << filename << std::endl;
-    
-    // Agrega una pausa para ver la salida en depuración
-    std::cin.get();
-    return 0;
-
-
   // Create the algorithms
- /* RandomSearch ralg = RandomSearch();
+  RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
   GreedySearch rgreedy = GreedySearch();
 
@@ -55,10 +40,11 @@ int main(int argc, char *argv[]) {
   Random::seed(seed);
   cout << algoritmo.first << endl;
   MH *mh = algoritmo.second;
-  ResultMH result = mh->optimize(problem, 100);
+  // Cambiando a solo 1
+  ResultMH result = mh->optimize(problem, 1);
   cout << "Best solution: " << result.solution << endl;
   cout << "Best fitness: " << result.fitness << endl;
-  cout << "Evaluations: " << result.evaluations << endl;*/
+  cout << "Evaluations: " << result.evaluations << endl;
 
   // Solve using evaluations
   /*vector<pair<string, MH *>> algoritmos = {make_pair("RandomSearch", &ralg),
@@ -77,8 +63,8 @@ int main(int argc, char *argv[]) {
     cout << "Evaluations: " << result.evaluations << endl;
   }*/
 
-  std::cout << "Presiona ENTER para salir...";
-  std::cin.get();  // Espera entrada del usuario
+  //std::cout << "Presiona ENTER para salir...";
+  //std::cin.get();  // Espera entrada del usuario
 
   return 0;
 }

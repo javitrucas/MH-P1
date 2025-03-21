@@ -19,7 +19,7 @@ public:
     return std::make_pair(false, true);
   }
 
-  vector<tHeuristic> heuristic(tSolution &sol, const vector<tOption> &options);
+  //vector<tHeuristic> heuristic(tSolution &sol, const vector<tOption> &options);
 
   void leerArchivo(const std::string& filename);
 };
