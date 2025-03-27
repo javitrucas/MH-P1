@@ -11,6 +11,7 @@
 #include "brutesearch.h"
 #include "greedy.h"
 #include "randomsearch.h"
+#include "localsearch.h"
 
 using namespace std;
 int main(int argc, char *argv[]) {
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]) {
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
   GreedySearch rgreedy = GreedySearch();
+  LocalSearch rlocal = LocalSearch();
 
   // Create the specific problem
   //ProblemIncrem rproblem = ProblemIncrem(10);
@@ -47,12 +49,23 @@ int main(int argc, char *argv[]) {
   cout << "Evaluations: " << result.evaluations << endl;*/
 
   // PRUEBA SOLO GREEDY
-  pair<string, MH *> algoritmo = make_pair("Greedy", &rgreedy);
+  /*pair<string, MH *> algoritmo = make_pair("Greedy", &rgreedy);
   Problem *problem = dynamic_cast<Problem *>(&rproblem);
   Random::seed(seed);
   cout << algoritmo.first << endl;
   MH *mh = algoritmo.second;
   ResultMH result = mh->optimize(problem, 1);
+  cout << "Best solution: " << result.solution << endl;
+  cout << "Best fitness: " << result.fitness << endl;
+  cout << "Evaluations: " << result.evaluations << endl;*/
+
+  // PRUEBA SOLO LOCALSEARCH
+  pair<string, MH *> algoritmo = make_pair("LocalSearch", &rlocal);
+  Problem *problem = dynamic_cast<Problem *>(&rproblem);
+  Random::seed(seed);
+  cout << algoritmo.first << endl;
+  MH *mh = algoritmo.second;
+  ResultMH result = mh->optimize(problem, 5);
   cout << "Best solution: " << result.solution << endl;
   cout << "Best fitness: " << result.fitness << endl;
   cout << "Evaluations: " << result.evaluations << endl;
