@@ -32,15 +32,26 @@ int main(int argc, char *argv[]) {
   // Create the specific problem
   //ProblemIncrem rproblem = ProblemIncrem(10);
   ProblemIncrem rproblem;
-  rproblem.leerArchivo("../datos_MDD/GKD-b_1_n25_m2.txt") ;
+  rproblem.leerArchivo("../datos_MDD/GKD-b_6_n25_m7.txt") ;
 
   // PRUEBA SOLO RANDOM SEARCH
-  pair<string, MH *> algoritmo = make_pair("RandomSearch", &ralg);
+  /*pair<string, MH *> algoritmo = make_pair("RandomSearch", &ralg);
   Problem *problem = dynamic_cast<Problem *>(&rproblem);
   Random::seed(seed);
   cout << algoritmo.first << endl;
   MH *mh = algoritmo.second;
-  // Cambiando a solo 1
+  // Cambiando a solo 1. Cambiar a 100000 evaluaciones
+  ResultMH result = mh->optimize(problem, 100);
+  cout << "Best solution: " << result.solution << endl;
+  cout << "Best fitness: " << result.fitness << endl;
+  cout << "Evaluations: " << result.evaluations << endl;*/
+
+  // PRUEBA SOLO GREEDY
+  pair<string, MH *> algoritmo = make_pair("Greedy", &rgreedy);
+  Problem *problem = dynamic_cast<Problem *>(&rproblem);
+  Random::seed(seed);
+  cout << algoritmo.first << endl;
+  MH *mh = algoritmo.second;
   ResultMH result = mh->optimize(problem, 1);
   cout << "Best solution: " << result.solution << endl;
   cout << "Best fitness: " << result.fitness << endl;

@@ -513,10 +513,13 @@ CMakeFiles/main.dir/src/pincrem.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/src/p
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_iterator.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_iterator_base_funcs.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_iterator_base_types.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_multiset.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_numeric.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_pair.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_relops.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_set.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_tempbuf.h \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_tree.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_uninitialized.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_vector.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stream_iterator.h \
@@ -540,6 +543,7 @@ CMakeFiles/main.dir/src/pincrem.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/src/p
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/debug/assertions.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/debug/debug.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/exception \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/aligned_buffer.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/alloc_traits.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/atomicity.h \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/new_allocator.h \
@@ -573,6 +577,7 @@ CMakeFiles/main.dir/src/pincrem.cpp.obj: C:/Users/raulm/Documents/MH/MH_P1/src/p
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ostream \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/random \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ratio \
+  c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/set \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/stdexcept \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/streambuf \
   c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/string \
@@ -1025,6 +1030,8 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/vector:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/stdarg.h:
 
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/set:
+
 c:/mingw/lib/gcc/mingw32/6.3.0/include/stddef.h:
 
 c:/mingw/lib/gcc/mingw32/6.3.0/include/stdint.h:
@@ -1032,3 +1039,11 @@ c:/mingw/lib/gcc/mingw32/6.3.0/include/stdint.h:
 C:/Users/raulm/Documents/MH/MH_P1/src/brutesearch.cpp:
 
 C:/Users/raulm/Documents/MH/MH_P1/src/pincrem.cpp:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_multiset.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_set.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/bits/stl_tree.h:
+
+c:/mingw/lib/gcc/mingw32/6.3.0/include/c++/ext/aligned_buffer.h:
