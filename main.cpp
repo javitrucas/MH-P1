@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
   RandomSearch ralg = RandomSearch();
   BruteSearch rbrute = BruteSearch();
   GreedySearch rgreedy = GreedySearch();
-  LocalSearch rlocal = LocalSearch();
+  LocalSearch rlocal = LocalSearch(EstrategiaExploracion::heurLS);
 
   // Create the specific problem
   //ProblemIncrem rproblem = ProblemIncrem(10);

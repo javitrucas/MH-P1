@@ -11,5 +11,7 @@ private:
   EstrategiaExploracion estrategia;
 
 public:
+  LocalSearch( EstrategiaExploracion estrategia) : MH() { this->estrategia = estrategia; }
+  virtual ~LocalSearch() {}
   ResultMH optimize(Problem *problem, const int maxevals) override;
 };

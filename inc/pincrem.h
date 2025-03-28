@@ -19,7 +19,7 @@ class ProblemIncrem : public Problem {
 
 private:
   int m;                        // Número de elementos seleccionados (m)
-  std::vector<std::vector<double>> D;  // Matriz de distancias
+  std::vector<std::vector<float>> D;  // Matriz de distancias
 
 public:
   ProblemIncrem(size_t size) : Problem() { this->size = size; }

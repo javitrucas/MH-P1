@@ -7,7 +7,7 @@
 
 tFitness ProblemIncrem::fitness(const tSolution &solution) {
   
-  std::cout<<"m= " << solution.size() << std::endl;
+  //std::cout<<"m= " << solution.size() << std::endl;
   
   // Caso especial: m = 2
   /*if (solution.size() == 2) {
@@ -27,13 +27,13 @@ tFitness ProblemIncrem::fitness(const tSolution &solution) {
     }
   }*/
   
-  std::cout << "Dentro de fitness" << std::endl;
+  //std::cout << "Dentro de fitness" << std::endl;
   std::vector<tFitness> count_parcial(solution.size(), 0);  // Usar vector dinámico
-  tFitness count_total=0;
+  tFitness count_total=0.0f;
   //int max = -1;
   //int min = 99999999;
-  int max = std::numeric_limits<int>::min();
-  int min = std::numeric_limits<int>::max();
+  float max = std::numeric_limits<int>::min();
+  float min = std::numeric_limits<int>::max();
 
   for (int i = 0; i < solution.size(); i++) {
     for (int j = 0; j < solution.size(); j++){
@@ -47,20 +47,20 @@ tFitness ProblemIncrem::fitness(const tSolution &solution) {
         } else {
             std::cerr << "Error: índices fuera de rango en fitness(): " << index1 << ", " << index2  << std::endl;
         }
-        std::cout << "Matriz " << index1 << ", " << index2 << ": " << D[index1][index2] << std::endl;
+        //std::cout << "Matriz " << index1 << ", " << index2 << ": " << D[index1][index2] << std::endl;
       }
     }
     if (count_parcial[i]<min){
-      std::cout << "Nuevo min: " << count_parcial[i] << std::endl;
+      //std::cout << "Nuevo min: " << count_parcial[i] << std::endl;
       min = count_parcial[i];
     }
     if(count_parcial[i]>max){
-      std::cout << "Nuevo max: " << count_parcial[i] << std::endl;
+      //std::cout << "Nuevo max: " << count_parcial[i] << std::endl;
       max = count_parcial[i];
     }
   }
   count_total = max - min;
-  std::cout << "Count_total: " << count_total << std::endl;
+  //std::cout << "Count_total: " << count_total << std::endl;
   return count_total;
 }
 
@@ -104,7 +104,7 @@ void ProblemIncrem::leerArchivo(const std::string& filename){
     file >> size >> m;
     std::cout << "Size(n): " << size << std::endl;
     std::cout << "m:" << m << std::endl;
-    D.resize(size, std::vector<double>(size, 0.0));
+    D.resize(size, std::vector<float>(size, 0.0));
 
     int i, j;
     double dij;
