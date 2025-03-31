@@ -25,7 +25,7 @@ ResultMH RandomSearch::optimize(Problem *problem, int maxevals) {
     if (fitness < best_fitness || best_fitness < 0) {
       best = solution;
       best_fitness = fitness;
-      std::cout << "Nuevo best_fitness: " << best_fitness << std::endl;
+      //std::cout << "Nuevo best_fitness: " << best_fitness << std::endl;
     }
   }
 
