@@ -18,14 +18,12 @@ ResultMH RandomSearch::optimize(Problem *problem, int maxevals) {
   tFitness best_fitness = -1;
 
   for (int i = 0; i < maxevals; i++) {
-    //std::cout << "Dentro de optimize" << std::endl;
     tSolution solution = problem->createSolution();
     tFitness fitness = problem->fitness(solution);
 
     if (fitness < best_fitness || best_fitness < 0) {
       best = solution;
       best_fitness = fitness;
-      //std::cout << "Nuevo best_fitness: " << best_fitness << std::endl;
     }
   }
 

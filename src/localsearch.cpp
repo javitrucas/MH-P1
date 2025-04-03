@@ -1,113 +1,107 @@
-#include <cassert>
-#include <localsearch.h>
-#include <util.h>
-#include <pincrem.h>
-#include <set>
-
+#include "localsearch.h"
+#include "pincrem.h"
+#include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
-ResultMH LocalSearch::optimize(Problem *problem, int maxevals) {
-  assert(maxevals > 0);
+ResultMH LocalSearch::optimize(Problem* problem, int maxevals) {
+    assert(maxevals > 0);
 
-  const int MAX_EVALS_LS = 100000; // Máximo de evaluaciones para la búsqueda local
+    const int MAX_EVAL_LIMIT = 100000;
+    ProblemIncrem* realProblem = dynamic_cast<ProblemIncrem*>(problem);
+    int m = realProblem->getM();
+    size_t size = problem->getSolutionSize();
 
-  size_t size = problem->getSolutionSize();
-  ProblemIncrem *realproblem = dynamic_cast<ProblemIncrem *>(problem);
-  int m = realproblem->getM();
-
-  // Vector para almacenar la solución final
-  tSolution best;
-  tFitness best_fitness = -1;
-
-  // 1. Generar una solución inicial aleatoria
-  tSolution solution = problem->createSolution();
-  tFitness fitness = problem->fitness(solution);
-  int evals = 1;
-
-  // 2. Generar la inf factorizada
-  SolutionFactoringInfo *info = problem->generateFactoringInfo(solution);
-  
-  // 3. Definir conjunto de elementos seleccionados y no seleccionados
-  std::set<int> selected(solution.begin(), solution.end());
-  std::set<int> not_selected;
-  for (int i = 0; i < size; i++) {
-    if (selected.find(i) == selected.end()) {
-      not_selected.insert(i);
-    }
-  }
-
-  bool mejorado = true;
-  while(mejorado && evals<MAX_EVALS_LS) {
-    mejorado = false;
-
-    // 4. Generar lista de intercambios posibles
-    std::vector<std::pair<int, int>> swaps;
-    for (int sel : selected) {
-      for (int non_sel : not_selected) {
-          swaps.push_back(std::make_pair(sel, non_sel));
-      }
-    }
-
-    if (swaps.empty()) {
-      std::cerr << "No hay movimientos posibles" << std::endl;
-      break;
-    }
-
-    // 5. Ordenar movimientos segun estrategia
-    if(estrategia == EstrategiaExploracion::heurLS) {
-      std::sort(swaps.begin(), swaps.end(), [&](const std::pair<int, int> &a, const std::pair<int, int> &b) {
-        auto it_a = std::find(solution.begin(), solution.end(), a.first);
-        auto it_b = std::find(solution.begin(), solution.end(), b.first);
-        // Evaluar la contribución de cada movimiento
-        tFitness deltaA = problem->fitness(solution, info, 
-          std::distance(solution.begin(), it_a), a.second);
-        tFitness deltaB = problem->fitness(solution, info, 
-          std::distance(solution.begin(), it_b), b.second);
-        return deltaA < deltaB; // Priorizar menor dispersión
-      });
-
-    } else {
-      Random::shuffle(swaps.begin(), swaps.end());
-    }
-
-    // 6. Aplicar el primer movimiento que mejore la solucion
-    for (size_t i = 0; i < swaps.size(); i++) {
-      int sel = swaps[i].first;
-      int non_sel = swaps[i].second;
-
-      auto it_sel = std::find(solution.begin(), solution.end(), sel);
-      if (it_sel == solution.end()) {
-          std::cerr << "Error: Elemento seleccionado no encontrado" << std::endl;
-          continue;
-      }
-      tFitness new_fitness = problem->fitness(solution, info, std::distance(solution.begin(), it_sel), non_sel);
-      evals++;
-
-      if (new_fitness < fitness) {  // Si encontramos mejora
-          // Aplicar movimiento
-          selected.erase(sel);
-          selected.insert(non_sel);
-          std::replace(solution.begin(), solution.end(), sel, non_sel);
-          not_selected.erase(non_sel);
-          not_selected.insert(sel);
-
-          // Actualizar información factorizada
-          int pos_change = std::distance(solution.begin(), std::find(solution.begin(), solution.end(), non_sel));
-          problem->updateSolutionFactoringInfo(info, solution, pos_change, non_sel);
-
-          fitness = new_fitness;
-          mejorado = true;
-          break; // Primer mejor encontrado
-      }
-
-      if (evals >= MAX_EVALS_LS) break;
-    }  
+    tSolution currentSolution = problem->createSolution();
+    tFitness currentFitness = problem->fitness(currentSolution);
+    auto info = problem->generateFactoringInfo(currentSolution);
     
-  }
+    unordered_set<int> selected(currentSolution.begin(), currentSolution.end());
+    unordered_set<int> notSelected;
+    for (int i = 0; i < size; ++i) {
+        if (!selected.count(i))
+            notSelected.insert(i);
+    }
 
-  delete info; // Liberar memoria de la info factorizada
+    bool improved = true;
+    int evals = 1;
 
-  return ResultMH(solution, fitness, evals);
+    while (improved && evals < MAX_EVAL_LIMIT) {
+        improved = false;
+        vector<pair<int, int>> swaps;
 
+        // Generar todos los posibles swaps entre elementos seleccionados y no seleccionados
+        for (int sel : selected) {
+            for (int nonSel : notSelected) {
+                swaps.emplace_back(sel, nonSel);
+            }
+        }
+
+        if (swaps.empty()) break;
+
+        // Para heurLS: buscar la mejor mejora (swap que minimice el fitness)
+        if (explorationMode == SearchStrategy::heurLS) {
+            tFitness bestCandidateFitness = currentFitness;
+            pair<int, int> bestSwap = {-1, -1};
+            int bestPos = -1;
+            // Recorrer todos los swaps disponibles
+            for (const auto& [sel, nonSel] : swaps) {
+                auto posIt = find(currentSolution.begin(), currentSolution.end(), sel);
+                if (posIt == currentSolution.end()) continue;
+                int pos = posIt - currentSolution.begin();
+                tFitness candidateFitness = problem->fitness(currentSolution, info, pos, nonSel);
+                evals++;
+                if (candidateFitness < bestCandidateFitness) {
+                    bestCandidateFitness = candidateFitness;
+                    bestSwap = {sel, nonSel};
+                    bestPos = pos;
+                }
+                if (evals >= MAX_EVAL_LIMIT) break;
+            }
+            // Si se encontró un swap que mejora la solución, se aplica
+            if (bestSwap.first != -1 && bestCandidateFitness < currentFitness) {
+                int sel = bestSwap.first;
+                int nonSel = bestSwap.second;
+                selected.erase(sel);
+                selected.insert(nonSel);
+                replace(currentSolution.begin(), currentSolution.end(), sel, nonSel);
+                notSelected.erase(nonSel);
+                notSelected.insert(sel);
+                problem->updateSolutionFactoringInfo(info, currentSolution, bestPos, nonSel);
+                currentFitness = bestCandidateFitness;
+                improved = true;
+            }
+        }
+        else {
+            Random::shuffle(swaps.begin(), swaps.end());
+            for (const auto& [sel, nonSel] : swaps) {
+                auto pos = find(currentSolution.begin(), currentSolution.end(), sel);
+                if (pos == currentSolution.end()) continue;
+
+                tFitness newFitness = problem->fitness(currentSolution, info, pos - currentSolution.begin(), nonSel);
+                evals++;
+
+                if (newFitness < currentFitness) {
+                    selected.erase(sel);
+                    selected.insert(nonSel);
+                    replace(currentSolution.begin(), currentSolution.end(), sel, nonSel);
+                    notSelected.erase(nonSel);
+                    notSelected.insert(sel);
+
+                    int newPos = find(currentSolution.begin(), currentSolution.end(), nonSel) - currentSolution.begin();
+                    problem->updateSolutionFactoringInfo(info, currentSolution, newPos, nonSel);
+
+                    currentFitness = newFitness;
+                    improved = true;
+                    break;
+                }
+
+                if (evals >= MAX_EVAL_LIMIT) break;
+            }
+        }
+    }
+
+    delete info;
+    return ResultMH(currentSolution, currentFitness, evals);
 }

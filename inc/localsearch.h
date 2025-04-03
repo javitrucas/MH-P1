@@ -1,17 +1,18 @@
 #pragma once
 #include <mh.h>
 
-enum class EstrategiaExploracion {
-  randLS,  // Exploración en orden aleatorio 
-  heurLS // Exploración basada en heurística
+
+enum class SearchStrategy {
+  randLS,
+  heurLS 
 };
 
 class LocalSearch : public MH {
 private:
-  EstrategiaExploracion estrategia;
+    SearchStrategy explorationMode;
 
 public:
-  LocalSearch( EstrategiaExploracion estrategia) : MH() { this->estrategia = estrategia; }
-  virtual ~LocalSearch() {}
-  ResultMH optimize(Problem *problem, const int maxevals) override;
+    explicit LocalSearch(SearchStrategy mode) : MH(), explorationMode(mode) {}
+    virtual ~LocalSearch() = default;
+    ResultMH optimize(Problem* problem, int maxIterations) override;
 };

@@ -1,77 +1,93 @@
 #include <cassert>
-#include <greedy.h>
 #include <iostream>
-#include <pincrem.h>
+#include <vector>
+#include <algorithm>
+#include <limits>
+#include "greedy.h"
+#include "pincrem.h"
+#include "random.hpp"
 
 using namespace std;
 
-template <class T> void print_vector(string name, const vector<T> &sol) {
-  cout << name << ": ";
-
-  for (auto elem : sol) {
-    cout << elem << ", ";
-  }
-  cout << endl;
+/**
+ * Imprime un vector en la consola.
+ *
+ * @tparam T Tipo de los elementos del vector.
+ * @param label Etiqueta para identificar el vector.
+ * @param vec Vector a imprimir.
+ */
+template <typename T>
+void printVector(const string& label, const vector<T>& vec) {
+    cout << label << ": ";
+    for (const auto& elem : vec) {
+        cout << elem << " ";
+    }
+    cout << endl;
 }
 
 /**
- * Create random solutions until maxevals has been achieved, and returns the
- * best one.
+ * Optimiza un problema utilizando una estrategia voraz.
  *
- * @param problem The problem to be optimized
- * @param maxevals Maximum number of evaluations allowed
- * @return A pair containing the best solution found and its fitness
+ * @param problem Problema a optimizar.
+ * @param maxEvals Número máximo de evaluaciones permitidas.
+ * @return Resultado con la mejor solución encontrada y su fitness.
  */
-ResultMH GreedySearch::optimize(Problem *problem, int maxevals) {
-  assert(maxevals > 0);
+ResultMH GreedySearch::optimize(Problem* problem, int maxEvals) {
+    assert(maxEvals > 0);
 
-  size_t size = problem->getSolutionSize();
-  ProblemIncrem *realproblem = dynamic_cast<ProblemIncrem *>(problem);
-  int m = realproblem->getM();
+    // Obtener el tamaño de la solución y el número de elementos a seleccionar
+    size_t solutionSize = problem->getSolutionSize();
+    ProblemIncrem* realProblem = dynamic_cast<ProblemIncrem*>(problem);
+    int elementsToSelect = realProblem->getM();
 
-  // Vector para almacenar la solución final
-  tSolution sol;
-  
-  vector<tOption> values;
-  // Crear vector de valores no seleccionados
-  for (int i = 0; i < size; i++) {
-    values.push_back(i);
-  }
-
-  // Elegir el primer elemento aleatorio
-  int first = Random::get<int>(0, size - 1);
-  sol.push_back(first);
-  cout << "Primer candidato: " << first << endl;
-  // Eliminar el primer elemento de los valores no seleccionados
-  values.erase(remove(values.begin(), values.end(), first), values.end());
-  
-  print_vector("Values", values);
-
-  // Seleccionar los m-1 elementos restantes
-  for (size_t i = 1; i < m; i++) {
-    int best_candidate = -1;
-    tFitness best_fitness = std::numeric_limits<tFitness>::max();
-    // Evaluar todos los candidatos no seleccionados
-    for (int candidate : values) {
-      // Crear una nueva solución con el candidato
-      tSolution new_sol = sol;
-      new_sol.push_back(candidate);
-      print_vector("New solution", new_sol);
-      // Evaluar la nueva solución
-      tFitness fitness = problem->fitness(new_sol);
-      // Si la nueva solución es mejor que la mejor encontrada hasta ahora
-      if (fitness < best_fitness) {
-        best_candidate = candidate;
-        best_fitness = fitness;
-      }
+    // Inicializar la solución y los candidatos disponibles
+    tSolution currentSolution;
+    vector<tOption> availableCandidates;
+    for (int i = 0; i < solutionSize; ++i) {
+        availableCandidates.push_back(i);
     }
-    // Si se ha encontrado un candidato, añadirlo a la solución y eliminarlo de los valores no seleccionados
-    if(best_candidate != -1 && !values.empty()) {
-      sol.push_back(best_candidate);
-      values.erase(remove(values.begin(), values.end(), best_candidate), values.end());
-    }
-  }
 
-  tFitness fitness = problem->fitness(sol);
-  return ResultMH(sol, fitness, 1);
+    // Seleccionar el primer candidato aleatorio
+    int firstCandidate = Random::get<int>(0, static_cast<int>(solutionSize) - 1);
+    currentSolution.push_back(firstCandidate);
+    availableCandidates.erase(remove(availableCandidates.begin(), availableCandidates.end(), firstCandidate), availableCandidates.end());
+
+    cout << "Primer candidato seleccionado: " << firstCandidate << endl;
+    printVector("Candidatos restantes", availableCandidates);
+
+    // Seleccionar los elementos restantes usando una estrategia voraz
+    for (int i = 1; i < elementsToSelect; ++i) {
+        int bestCandidate = -1;
+        tFitness bestFitness = numeric_limits<tFitness>::max();
+
+        for (const auto& candidate : availableCandidates) {
+            // Crear una nueva solución temporal con el candidato actual
+            tSolution tempSolution = currentSolution;
+            tempSolution.push_back(candidate);
+
+            // Evaluar la solución temporal
+            tFitness candidateFitness = problem->fitness(tempSolution);
+
+            // Actualizar el mejor candidato si es necesario
+            if (candidateFitness < bestFitness) {
+                bestCandidate = candidate;
+                bestFitness = candidateFitness;
+            }
+        }
+
+        // Añadir el mejor candidato a la solución y eliminarlo de los disponibles
+        if (bestCandidate != -1) {
+            currentSolution.push_back(bestCandidate);
+            availableCandidates.erase(remove(availableCandidates.begin(), availableCandidates.end(), bestCandidate), availableCandidates.end());
+        }
+
+        cout << "Candidato añadido: " << bestCandidate << endl;
+        printVector("Nueva solución", currentSolution);
+        printVector("Candidatos restantes", availableCandidates);
+    }
+
+    // Calcular el fitness final de la solución completa
+    tFitness finalFitness = problem->fitness(currentSolution);
+    
+    return ResultMH(currentSolution, finalFitness, 1);
 }
