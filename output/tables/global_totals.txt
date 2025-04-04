@@ -1,0 +1,4 @@
+Algoritmo	Desv	Tiempo
+Greedy	66.6682	0.0135
+LSrandom	55.2707	0.0976
+LSheur	58.0990	0.4328
