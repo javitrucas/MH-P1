@@ -26,11 +26,12 @@ void printVector(const string& label, const vector<T>& vec) {
 }
 
 /**
- * Optimiza un problema utilizando una estrategia voraz.
+ * Create random solutions until maxevals has been achieved, and returns the
+ * best one.
  *
- * @param problem Problema a optimizar.
- * @param maxEvals Número máximo de evaluaciones permitidas.
- * @return Resultado con la mejor solución encontrada y su fitness.
+ * @param problem The problem to be optimized
+ * @param maxevals Maximum number of evaluations allowed
+ * @return A pair containing the best solution found and its fitness
  */
 ResultMH GreedySearch::optimize(Problem* problem, int maxEvals) {
     assert(maxEvals > 0);

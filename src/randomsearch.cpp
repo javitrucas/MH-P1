@@ -1,6 +1,5 @@
 #include <cassert>
 #include <randomsearch.h>
-#include <iostream>         //LUEGO BORRAR
 
 using namespace std;
 

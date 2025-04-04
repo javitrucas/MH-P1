@@ -14,6 +14,7 @@
 #include "localsearch.h"
 #include <chrono> // Para medir el tiempo
 #include <vector> // Para el vector de semillas
+#include <map>    // Para almacenar los mejores valores conocidos
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -21,12 +22,11 @@ namespace fs = std::filesystem;
 // Estructura para almacenar estadísticas
 struct Stats {
     double mean;
-    double stdDev;
     double min;
     double max;
 };
 
-// Función para calcular estadísticas
+// Función para calcular estadísticas (solo mean, min y max)
 Stats calculateStats(const vector<double>& values) {
     Stats result;
     
@@ -37,19 +37,36 @@ Stats calculateStats(const vector<double>& values) {
     }
     result.mean = sum / values.size();
     
-    // Calcular desviación estándar
-    double sumSquaredDiff = 0.0;
-    for (const auto& val : values) {
-        double diff = val - result.mean;
-        sumSquaredDiff += diff * diff;
-    }
-    result.stdDev = sqrt(sumSquaredDiff / values.size());
-    
     // Encontrar mínimo y máximo
     result.min = *min_element(values.begin(), values.end());
     result.max = *max_element(values.begin(), values.end());
     
     return result;
+}
+
+// Función para cargar los mejores valores conocidos de fitness
+map<string, double> loadBestKnownFitness(const string& filePath) {
+    map<string, double> bestFitness;
+    ifstream file(filePath);
+    
+    if (!file.is_open()) {
+        cerr << "Error: Could not open best fitness file: " << filePath << endl;
+        return bestFitness;
+    }
+    
+    // Saltar la línea de cabecera
+    string header;
+    getline(file, header);
+    
+    string instance;
+    double cost;
+    while (file >> instance >> cost) {
+        bestFitness[instance] = cost;
+    }
+    
+    file.close();
+    cout << "Loaded " << bestFitness.size() << " best known fitness values" << endl;
+    return bestFitness;
 }
 
 // Estructura para almacenar resultados de cada ejecución
@@ -94,7 +111,7 @@ void runAlgorithm(const string& algorithmName, MH* algorithm, ProblemIncrem& pro
 }
 
 // Función para escribir estadísticas en un archivo
-void writeStats(const string& algorithmName, const string& instanceName, const RunResults& results) {
+void writeStats(const string& algorithmName, const string& instanceName, const RunResults& results, const map<string, double>& bestKnownFitness) {
     // Crear carpeta de salida si no existe
     fs::create_directories("../output");
     
@@ -109,10 +126,33 @@ void writeStats(const string& algorithmName, const string& instanceName, const R
         return;
     }
     
-    // Calcular estadísticas
+    // Calcular estadísticas de fitness, evaluaciones y tiempo
     Stats fitnessStats = calculateStats(results.fitness);
     Stats evalStats = calculateStats(results.evaluations);
     Stats timeStats = calculateStats(results.times);
+    
+    // Calcular la desviación usando el mejor valor conocido
+    double bestKnown = 0.0;
+    bool bestKnownFound = false;
+    
+    // Buscar el mejor valor conocido para esta instancia
+    auto it = bestKnownFitness.find(instanceName);
+    if (it != bestKnownFitness.end()) {
+        bestKnown = it->second;
+        bestKnownFound = true;
+        cout << "Found best known fitness for " << instanceName << ": " << bestKnown << endl;
+    } else {
+        cout << "Warning: No best known fitness found for " << instanceName << endl;
+    }
+    
+    // Calcular la desviación: 100*((mean_fitness - best_known)/mean_fitness)
+    double deviation;
+    if (bestKnownFound) {
+        deviation = (fitnessStats.mean == 0) ? 0 : 100 * ((fitnessStats.mean - bestKnown) / fitnessStats.mean);
+    } else {
+        // Si no hay mejor valor conocido, usar el mínimo como antes
+        deviation = (fitnessStats.mean == 0) ? 0 : 100 * ((fitnessStats.mean - fitnessStats.min) / fitnessStats.mean);
+    }
     
     // Escribir resultados
     outFile << "==========================================================\n";
@@ -120,18 +160,25 @@ void writeStats(const string& algorithmName, const string& instanceName, const R
     outFile << "----------------------------------------------------------\n";
     outFile << fixed << setprecision(4);
     
-    outFile << "Fitness - Mean: " << fitnessStats.mean 
-            << " - StdDev: " << fitnessStats.stdDev 
-            << " - Min: " << fitnessStats.min 
-            << " - Max: " << fitnessStats.max << "\n";
+    if (bestKnownFound) {
+        outFile << "Fitness - Mean: " << fitnessStats.mean 
+                << " - Desv: " << deviation 
+                << " - Min: " << fitnessStats.min 
+                << " - Max: " << fitnessStats.max 
+                << " - Best Known: " << bestKnown << "\n";
+    } else {
+        outFile << "Fitness - Mean: " << fitnessStats.mean 
+                << " - Desv: " << deviation 
+                << " - Min: " << fitnessStats.min 
+                << " - Max: " << fitnessStats.max 
+                << " - Best Known: Not available\n";
+    }
             
     outFile << "Evaluations - Mean: " << evalStats.mean 
-            << " - StdDev: " << evalStats.stdDev 
             << " - Min: " << evalStats.min 
             << " - Max: " << evalStats.max << "\n";
             
     outFile << "Time (s) - Mean: " << timeStats.mean 
-            << " - StdDev: " << timeStats.stdDev 
             << " - Min: " << timeStats.min 
             << " - Max: " << timeStats.max << "\n";
     
@@ -192,6 +239,10 @@ int main(int argc, char *argv[]) {
         cout << endl;
     }
 
+    // Cargar los mejores valores conocidos
+    string bestFitnessFile = "../datos_MDD/best_fitness.txt";
+    map<string, double> bestKnownFitness = loadBestKnownFitness(bestFitnessFile);
+
     // Carpeta que contiene las instancias
     string folderPath = "../datos_MDD";
 
@@ -211,7 +262,9 @@ int main(int argc, char *argv[]) {
 
     // Iterar sobre todos los archivos .txt en la carpeta
     for (const auto& entry : fs::directory_iterator(folderPath)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt" && 
+            entry.path().filename() != "best_fitness.txt") {  // Excluir el archivo de mejores valores
+            
             string instance_path = entry.path().string();
             string instance_name = fs::path(instance_path).stem().string();
 
@@ -236,8 +289,8 @@ int main(int argc, char *argv[]) {
                     runAlgorithm(alg.first, alg.second, problem, seed, results);
                 }
                 
-                // Calcular y guardar estadísticas
-                writeStats(alg.first, instance_name, results);
+                // Calcular y guardar estadísticas usando los mejores valores conocidos
+                writeStats(alg.first, instance_name, results, bestKnownFitness);
                 cout << "\nStatistics for " << alg.first << " on " << instance_name 
                      << " saved to ../output/" << alg.first << ".txt" << endl;
             }
